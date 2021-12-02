@@ -29,7 +29,7 @@ jobs:
 
     - name: mvn commands
       run: mvn clean install
-      
+
     - name: Build docker images
       run: docker build -t $IMAGE_NAME:latest .
 
