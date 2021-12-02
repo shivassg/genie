@@ -13,6 +13,9 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: genie
+      PROJECT_ID: genie-application
 
     steps:
     - uses: actions/checkout@v2
@@ -24,3 +27,29 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn clean install
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@master
+      with:
+        project_id: ${{ env.PROJECT_ID }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        export_default_credentials: true
+
+    - name: Build docker image
+      run: docker build -t $IMAGE_NAME:latest .
+
+    - name: Configure Docker Client
+      run: gcloud auth configure-docker --quiet
+
+    - name: Push Docker Image to Container Registry
+      env:
+        GIT_TAG: v0.1.0
+      run: |-
+         docker tag $IMAGE_NAME:latest gcr.io/$PROJECT_ID/$IMAGE_NAME:latest
+         docker tag $IAMGE_NAME:latest gcr.io/$PROJECT_ID/$IMAGE_NAME:$GIT_TAG
+         docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:latest
+         docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:$GIT_TAG
+
+
+
+
+
