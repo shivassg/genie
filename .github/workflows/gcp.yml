@@ -26,8 +26,11 @@ jobs:
         project_id: ${{ env.PROJECT_ID }}
         service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
         export_default_credentials: true
+        
+    - name: path
+      run: pwd
 
-    - name: Build docker image
+    - name: Build docker images
       run: docker build -t $IMAGE_NAME:latest ../..
 
     - name: Configure Docker Client
