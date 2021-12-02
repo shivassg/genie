@@ -18,7 +18,6 @@ jobs:
       PROJECT_ID: genie-application
 
     steps:
-    - name: Check out code
     - uses: actions/checkout@v2
 
     - name: Set up Cloud SDK
@@ -30,8 +29,8 @@ jobs:
 
     - name: Build docker image
       run: |-
-      cd genie
-      docker build -f Dockerfile -t $IMAGE_NAME:latest .
+         cd genie
+         docker build -f Dockerfile -t $IMAGE_NAME:latest .
 
     - name: Configure Docker Client
       run: gcloud auth configure-docker --quiet
