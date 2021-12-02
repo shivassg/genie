@@ -27,6 +27,9 @@ jobs:
         service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
         export_default_credentials: true
 
+    - name: path
+    - run: pwd
+
     - name: Build docker image
       run: docker build -t $IMAGE_NAME:latest ../..
 
