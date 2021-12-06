@@ -1,4 +1,2 @@
-FROM openjdk:8
-EXPOSE 8080
-ADD target/genie-docker.jar genie-docker.jar
-ENTRYPOINT ["java", "-jar","/genie-docker.jar"]
+FROM maven:3.5-jdk-8-alpine
+COPY . /app
